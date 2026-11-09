@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ความคืบหน้าการจัดเก็บข้อมูล จปฐ. จังหวัดพะเยา 2570</title>
+<meta name="description" content="Dashboard ความคืบหน้าการจัดเก็บข้อมูล จปฐ. จังหวัดพะเยา ปี 2570 สำนักงานพัฒนาชุมชนจังหวัดพะเยา">
+<link rel="icon" href="assets/cdd.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="dash">
+  <header class="banner">
+    <div class="logos">
+      <img src="assets/seal.png" alt="ตราจังหวัดพะเยา">
+      <img src="assets/cdd.png" alt="ตรากรมการพัฒนาชุมชน">
+      <img class="tile" src="assets/50years.jpg" alt="ตรา 50 ปี จังหวัดพะเยา">
+    </div>
+    <div class="slogan">
+      <p class="big">50 ปี จังหวัดพะเยา</p>
+      <p class="line">ข้อมูล จปฐ. ถูกต้อง ครบถ้วน พร้อมใช้ประโยชน์</p>
+    </div>
+    <div class="stamp">
+      <div class="ts" id="ts">กำลังโหลดข้อมูล…</div>
+      <div class="live no-export" id="live"><span class="dot"></span><span id="liveText">กำลังเชื่อมต่อ</span></div>
+    </div>
+  </header>
+  <div class="stripe"></div>
+
+  <div class="titlebar">
+    <h1>ความคืบหน้าการจัดเก็บข้อมูลความจำเป็นพื้นฐาน (จปฐ.) จังหวัดพะเยา ปี 2570
+      <span class="by">โดย สำนักงานพัฒนาชุมชนจังหวัดพะเยา</span></h1>
+    <div class="actions no-export">
+      <button class="btn" id="btnRefresh" type="button">รีเฟรชข้อมูล</button>
+      <button class="btn primary" id="btnExport" type="button">บันทึกเป็นภาพ PNG</button>
+    </div>
+  </div>
+  <div class="notice no-export" id="notice"></div>
+
+  <section class="kpis">
+    <div class="card kpi hero">
+      <div class="ring"><canvas id="ring" width="118" height="118"></canvas>
+        <div class="center"><div class="pct" id="kPct">–</div></div></div>
+      <div><div class="label">ภาพรวมจังหวัด</div>
+        <div class="sub" id="kPctSub">เทียบกับเป้าหมาย</div>
+        <span class="pill" id="kPill"></span></div>
+    </div>
+    <div class="card kpi"><div class="label">เป้าหมายการจัดเก็บ</div><div class="value" id="kTarget">–</div><div class="sub">รวม 9 อำเภอ</div></div>
+    <div class="card kpi"><div class="label">จัดเก็บแล้ว</div><div class="value" id="kDone">–</div><div class="sub" id="kDelta"></div></div>
+    <div class="card kpi kleft"><div class="label">คงเหลือที่ต้องจัดเก็บ</div><div class="value" id="kLeft">–</div><div class="sub" id="kLeftSub"></div></div>
+    <div class="card kpi statusbox"><div class="label">สถานะรายอำเภอ <span class="no-export">(แตะเพื่อกรอง)</span></div>
+      <div class="chips">
+        <button type="button" class="chip green" data-st="green" aria-pressed="false"><span class="n" id="cGreen">0</span><span class="t">เขียว</span></button>
+        <button type="button" class="chip yellow" data-st="yellow" aria-pressed="false"><span class="n" id="cYellow">0</span><span class="t">เหลือง</span></button>
+        <button type="button" class="chip red" data-st="red" aria-pressed="false"><span class="n" id="cRed">0</span><span class="t">แดง</span></button>
+      </div></div>
+  </section>
+
+  <section class="main">
+    <div class="card panel">
+      <div class="head">
+        <h2>ผลการจัดเก็บรายอำเภอ <span class="note" id="curLabel"></span></h2>
+        <div class="seg no-export" role="group" aria-label="การเรียงลำดับ">
+          <button type="button" data-sort="sheet" aria-pressed="true">ตามลำดับอำเภอ</button>
+          <button type="button" data-sort="pct" aria-pressed="false">ร้อยละมากไปน้อย</button>
+        </div>
+      </div>
+      <div class="scale" aria-hidden="true"><span></span><div class="axis"><span style="left:0">0</span><span style="left:50%">50</span><span style="left:70%">70</span><span style="left:100%;transform:translateX(-100%)">100</span></div><span></span></div>
+      <div class="dlist" id="dlist"></div>
+      <div class="legend">
+        <span><i style="background:var(--st-green)"></i>เขียว มากกว่าร้อยละ 70</span>
+        <span><i style="background:var(--st-yellow)"></i>เหลือง มากกว่าร้อยละ 50 ถึง 70</span>
+        <span><i style="background:var(--st-red)"></i>แดง ไม่เกินร้อยละ 50</span>
+        <span class="no-export">แตะชื่ออำเภอเพื่อดูแนวโน้มรายสัปดาห์</span>
+      </div>
+    </div>
+
+    <div class="card panel">
+      <div class="head">
+        <h2>ผลการจัดเก็บรายสัปดาห์</h2>
+        <span class="note" id="wkStamp"></span>
+      </div>
+      <div class="chartbox"><canvas id="wchart"></canvas></div>
+      <div class="wtable-wrap"><table class="wt" id="wtable"></table></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>แหล่งข้อมูล: Google Sheets “ความคืบหน้าการจัดเก็บ จปฐ. 2570 พะเยา” ร้อยละคิดจากผลการจัดเก็บเทียบกับเป้าหมาย</span>
+    <span>สำนักงานพัฒนาชุมชนจังหวัดพะเยา</span>
+  </footer>
+</div>
+
+<div class="busy" id="busy">กำลังสร้างภาพ…</div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="ภาพ Dashboard">
+  <div class="box">
+    <div class="row"><strong>ภาพ Dashboard พร้อมส่งแล้ว</strong><button class="btn" id="mClose" type="button">ปิด</button></div>
+    <div class="imgwrap"><img id="mImg" alt="ภาพ Dashboard"></div>
+    <div class="row">
+      <span class="hint">บนมือถือ กดค้างที่ภาพเพื่อบันทึกหรือส่งต่อทาง LINE</span>
+      <span style="display:flex;gap:8px">
+        <button class="btn" id="mShare" type="button" hidden>แชร์</button>
+        <a class="btn primary" id="mDl" download="dashboard.png" style="text-decoration:none">ดาวน์โหลดภาพ</a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
