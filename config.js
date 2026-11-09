@@ -7,7 +7,7 @@ window.DASHBOARD_CONFIG = {
   /* ลิงก์ CSV จาก Google Sheets (ไฟล์ > แชร์ > เผยแพร่ไปยังเว็บ)
      วางไว้ระหว่างเครื่องหมาย ' '  ถ้าเว้นว่าง จะแสดงเป็นหน้าตัวอย่าง */
   CSV_URLS: [
-    ''
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vRDwRl2uXHjdsydhVYsbxXNmm6zXpqfmdgwvzNJtKFJG6_C1Uy4faWFpI1iJLtqek6_8zLZBw7ax1FK/pub?gid=1510060079&single=true&output=csv'
   ],
 
   /* หน่วยของตัวเลข: แบบเต็ม และแบบย่อ (ใช้ในพื้นที่แคบ) */
