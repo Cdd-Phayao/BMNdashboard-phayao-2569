@@ -112,7 +112,7 @@ function parseSection(g, start, stop, multi){
   let timestamp = '', hr = -1, targetCol = -1;
   for (let r = start; r < stop; r++){
     const row = g[r] || [];
-    if (!timestamp){ const ts = row.find(c => T(c).indexOf('ข้อมูล ณ') === 0); if (ts) timestamp = T(ts); }
+    if (!timestamp){ const i = row.findIndex(c => T(c).indexOf('ข้อมูล ณ') === 0); if (i >= 0) timestamp = row.slice(i).map(T).filter(Boolean).join(' '); }
     if (row.some(c => T(c) === 'อำเภอ')){ hr = r; targetCol = row.findIndex(c => T(c) === 'เป้าหมาย'); break; }
   }
   if (hr < 0 || targetCol < 0) throw new Error('ไม่พบหัวตาราง "อำเภอ" หรือ "เป้าหมาย"');
