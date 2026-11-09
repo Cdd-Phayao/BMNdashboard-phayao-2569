@@ -1,5 +1,5 @@
 :root{
-  --bgimg:url('assets/kwan-phayao.jpg');
+  --bgimg:url('kwan-phayao.jpg');
   color-scheme: light;
   --navy:#24255C; --navy-deep:#17184A; --red:#E3262B; --gray:#8E8F99; --white:#FFFFFF;
   --st-red:#D7263D; --st-yellow:#E9A800; --st-green:#16995A;
