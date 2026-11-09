@@ -50,9 +50,9 @@
         <div class="sub" id="kPctSub">เทียบกับเป้าหมาย</div>
         <span class="pill" id="kPill"></span></div>
     </div>
-    <div class="card kpi"><div class="label">เป้าหมายการจัดเก็บ</div><div class="value" id="kTarget">–</div><div class="sub">รวม 9 อำเภอ</div></div>
-    <div class="card kpi"><div class="label">จัดเก็บแล้ว</div><div class="value" id="kDone">–</div><div class="sub" id="kDelta"></div></div>
-    <div class="card kpi kleft"><div class="label">คงเหลือที่ต้องจัดเก็บ</div><div class="value" id="kLeft">–</div><div class="sub" id="kLeftSub"></div></div>
+    <div class="card kpi"><div class="label">เป้าหมายการจัดเก็บ</div><div class="value"><span id="kTarget">–</span><span class="unit" data-unit></span></div><div class="sub">รวม 9 อำเภอ</div></div>
+    <div class="card kpi"><div class="label">จัดเก็บแล้ว</div><div class="value"><span id="kDone">–</span><span class="unit" data-unit></span></div><div class="sub" id="kDelta"></div></div>
+    <div class="card kpi kleft"><div class="label">คงเหลือที่ต้องจัดเก็บ</div><div class="value"><span id="kLeft">–</span><span class="unit" data-unit></span></div><div class="sub" id="kLeftSub"></div></div>
     <div class="card kpi statusbox"><div class="label">สถานะรายอำเภอ <span class="no-export">(แตะเพื่อกรอง)</span></div>
       <div class="chips">
         <button type="button" class="chip green" data-st="green" aria-pressed="false"><span class="n" id="cGreen">0</span><span class="t">เขียว</span></button>
@@ -92,6 +92,7 @@
 
   <footer class="footer">
     <span>แหล่งข้อมูล: Google Sheets “ความคืบหน้าการจัดเก็บ จปฐ. 2570 พะเยา” ร้อยละคิดจากผลการจัดเก็บเทียบกับเป้าหมาย</span>
+    <span>หน่วย: <span data-unit></span> (<span data-unit="short"></span>)</span>
     <span>สำนักงานพัฒนาชุมชนจังหวัดพะเยา</span>
   </footer>
 </div>
@@ -111,6 +112,7 @@
   </div>
 </div>
 
+<script src="config.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -1,19 +1,13 @@
 /* ==================================================================
    Dashboard ความคืบหน้าการจัดเก็บข้อมูล จปฐ. จังหวัดพะเยา ปี 2570
    สำนักงานพัฒนาชุมชนจังหวัดพะเยา
-
-   ตั้งค่า (แก้เฉพาะส่วนนี้)
-   CSV_URL : ลิงก์ CSV จากเมนู ไฟล์ > แชร์ > เผยแพร่ไปยังเว็บ ของ Google Sheets
-             วางไว้ระหว่างเครื่องหมาย ' '
-             ถ้าเว้นว่าง หน้านี้จะแสดงเป็น "หน้าตัวอย่าง" ด้วยข้อมูลที่ฝังไว้
-             ถ้าวันหลังแยกข้อมูลไว้หลายแท็บ ใส่ได้หลายลิงก์ คั่นด้วยเครื่องหมายจุลภาค
+   ไฟล์นี้คือตัวระบบ ไม่ต้องแก้ไข ค่าที่ปรับได้ทั้งหมดอยู่ใน config.js
    ================================================================== */
-const CSV_URLS = [
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vRDwRl2uXHjdsydhVYsbxXNmm6zXpqfmdgwvzNJtKFJG6_C1Uy4faWFpI1iJLtqek6_8zLZBw7ax1FK/pub?gid=1510060079&single=true&output=csv'
-];
-
-/* วันสิ้นสุดการจัดเก็บ (ต้องพิมพ์ตรงกับวันที่ที่หัวคอลัมน์รายสัปดาห์) */
-const DEADLINES = [
+const CFG = window.DASHBOARD_CONFIG || {};
+const CSV_URLS = Array.isArray(CFG.CSV_URLS) ? CFG.CSV_URLS : [];
+const UNIT = CFG.UNIT || 'ครัวเรือน';
+const UNIT_SHORT = CFG.UNIT_SHORT || UNIT;
+const DEADLINES = Array.isArray(CFG.DEADLINES) ? CFG.DEADLINES : [
   { date:'20 ธันวาคม 2569', label:'สิ้นสุดของจังหวัด', short:'สิ้นสุดจังหวัด' },
   { date:'31 ธันวาคม 2569', label:'สิ้นสุดของกรม', short:'สิ้นสุดกรม' }
 ];
@@ -22,7 +16,7 @@ const DEADLINES = [
 const MARK_CURRENT = 'ผลการจัดเก็บปัจจุบัน';
 const MARK_WEEKLY = 'ผลการจัดเก็บรายสัปดาห์';
 
-/* ข้อมูลสำรองสำหรับหน้าตัวอย่าง (ใช้เฉพาะเมื่อยังไม่ได้ใส่ CSV_URLS) */
+/* ข้อมูลสำรองสำหรับหน้าตัวอย่าง (ใช้เฉพาะเมื่อยังไม่ได้ใส่ลิงก์ใน config.js) */
 const SNAPSHOT = {"current": {"timestamp": "ข้อมูล ณ วันที่ 9 พฤศจิกายน 2569 เวลา 22.00 น.", "periodLabel": "9 พฤศจิกายน 2569", "rows": [{"name": "เมืองพะเยา", "target": 28472, "collected": 9708, "pct": 34.1}, {"name": "จุน", "target": 12575, "collected": 10246, "pct": 81.48}, {"name": "เชียงคำ", "target": 18981, "collected": 11780, "pct": 62.06}, {"name": "เชียงม่วน", "target": 5406, "collected": 3572, "pct": 66.07}, {"name": "ดอกคำใต้", "target": 17983, "collected": 5782, "pct": 32.15}, {"name": "ปง", "target": 12134, "collected": 5102, "pct": 42.05}, {"name": "แม่ใจ", "target": 8510, "collected": 1716, "pct": 20.16}, {"name": "ภูซาง", "target": 8186, "collected": 2697, "pct": 32.95}, {"name": "ภูกามยาว", "target": 5555, "collected": 1350, "pct": 24.3}], "total": {"target": 117802, "collected": 51953, "pct": 44.1}}, "weekly": {"timestamp": "ข้อมูล ณ วันที่ 6 พฤศจิกายน 2569 เวลา 16.11 น.", "periods": ["6 พฤศจิกายน 2569 เวลา 16.11 น.", "13 พฤศจิกายน 2569 เวลา 16.00 น.", "20 พฤศจิกายน 2569 เวลา 16.00 น.", "27 พฤศจิกายน 2569 เวลา 16.00 น.", "4 ธันวาคม 2569 เวลา 16.00 น.", "11 ธันวาคม 2569 เวลา 16.00 น.", "20 ธันวาคม 2569 เวลา 16.00 น.", "31 ธันวาคม 2569 เวลา 16.00 น."], "rows": [{"name": "เมืองพะเยา", "target": 28472, "values": [{"collected": 7723, "pct": 27.12}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "จุน", "target": 12575, "values": [{"collected": 8626, "pct": 68.6}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "เชียงคำ", "target": 18981, "values": [{"collected": 10310, "pct": 54.32}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "เชียงม่วน", "target": 5406, "values": [{"collected": 3132, "pct": 57.94}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "ดอกคำใต้", "target": 17983, "values": [{"collected": 3501, "pct": 19.47}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "ปง", "target": 12134, "values": [{"collected": 3791, "pct": 31.24}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "แม่ใจ", "target": 8510, "values": [{"collected": 1311, "pct": 15.41}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "ภูซาง", "target": 8186, "values": [{"collected": 2280, "pct": 27.85}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}, {"name": "ภูกามยาว", "target": 5555, "values": [{"collected": 1058, "pct": 19.05}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}], "total": {"target": 117802, "values": [{"collected": 41732, "pct": 35.43}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}, {"collected": null, "pct": null}]}}};
 
 const SOURCES = CSV_URLS.map(s => String(s).trim()).filter(Boolean);
@@ -211,7 +205,7 @@ function render(d){
   let leftSub = left!=null && t.target ? 'คิดเป็นร้อยละ ' + fmtPct(left / t.target * 100) + ' ของเป้าหมาย' : '';
   const nd = nextDeadline(d.weekly && d.weekly.periods);
   if (nd && left > 0){
-    leftSub += '<br>อีก <b class="due">' + nd.days + ' วัน</b> ถึงวัน' + nd.label + ' (' + shortDate(nd.date) + ') ต้องจัดเก็บเพิ่มเฉลี่ยวันละ <b class="due">' + fmt(Math.ceil(left / nd.days)) + '</b>';
+    leftSub += '<br>อีก <b class="due">' + nd.days + ' วัน</b> ถึงวัน' + nd.label + ' (' + shortDate(nd.date) + ') ต้องจัดเก็บเพิ่มเฉลี่ยวันละ <b class="due">' + fmt(Math.ceil(left / nd.days)) + '</b> ' + UNIT;
   }
   $('kLeftSub').innerHTML = leftSub;
 
@@ -222,7 +216,7 @@ function render(d){
     if (li>=0 && t.collected!=null){
       const diff = t.collected - w.total.values[li].collected;
       const dp = (t.pct!=null && w.total.values[li].pct!=null) ? (t.pct - w.total.values[li].pct) : null;
-      if (diff !== 0) deltaText = '<b>' + (diff>0?'+':'') + fmt(diff) + (dp!=null ? ' (' + (dp>0?'+':'') + dp.toFixed(2) + ' จุด)' : '') + '</b> จากรอบรายสัปดาห์ ' + shortDate(w.periods[li]);
+      if (diff !== 0) deltaText = '<b>' + (diff>0?'+':'') + fmt(diff) + ' ' + UNIT + (dp!=null ? ' (' + (dp>0?'+':'') + dp.toFixed(2) + ' จุด)' : '') + '</b> จากรอบรายสัปดาห์ ' + shortDate(w.periods[li]);
       else deltaText = 'เท่ากับรอบรายสัปดาห์ ' + shortDate(w.periods[li]);
     }
   }
@@ -256,7 +250,7 @@ function renderList(){
   box.innerHTML = rows.map(r => {
     const s = status(r.pct), w = Math.max(0, Math.min(100, r.pct||0));
     return '<button type="button" class="drow'+(state.sel===r.name?' sel':'')+'" data-name="'+r.name+'" aria-label="อำเภอ'+r.name+' ร้อยละ '+fmtPct(r.pct)+'">'
-      + '<span class="dname">'+r.name+'<small>'+fmt(r.collected)+' / '+fmt(r.target)+'</small></span>'
+      + '<span class="dname">'+r.name+'<small>'+fmt(r.collected)+' / '+fmt(r.target)+' '+UNIT_SHORT+'</small></span>'
       + '<span class="track"><span class="fill '+s+'" data-w="'+w+'"></span><span class="tick" style="left:50%"></span><span class="tick" style="left:70%"></span></span>'
       + '<span class="dpct '+s+'">'+fmtPct(r.pct)+'%</span></button>';
   }).join('');
@@ -309,7 +303,7 @@ function renderWeekly(){
 
   // ตารางสีรายสัปดาห์
   let h = '<thead><tr><th>อำเภอ</th>' + w.periods.map(p=>{ const dl = deadlineOf(p); return '<th title="'+p+'"'+(dl?' class="dl"':'')+'>'+shortDate(p)+(dl?'<small>'+dl.label+'</small>':'')+'</th>'; }).join('') + '</tr></thead><tbody>';
-  const cell = v => { const s=status(v.pct); return '<td class="'+s+'" title="'+(v.collected!=null? fmt(v.collected)+' ราย':'ยังไม่มีข้อมูล')+'">'+(v.pct==null?'–':fmtPct(v.pct))+'</td>'; };
+  const cell = v => { const s=status(v.pct); return '<td class="'+s+'" title="'+(v.collected!=null? fmt(v.collected)+' '+UNIT:'ยังไม่มีข้อมูล')+'">'+(v.pct==null?'–':fmtPct(v.pct))+'</td>'; };
   w.rows.forEach(r => { h += '<tr'+(state.sel===r.name?' class="sel"':'')+'><td>'+r.name+'</td>'+r.values.map(cell).join('')+'</tr>'; });
   h += '<tr class="total"><td>รวมจังหวัด</td>'+w.total.values.map(cell).join('')+'</tr></tbody>';
   $('wtable').innerHTML = h;
@@ -383,6 +377,7 @@ $('modal').addEventListener('click', e => { if (e.target.id==='modal') $('modal'
 document.addEventListener('keydown', e => { if (e.key==='Escape') $('modal').classList.remove('show'); });
 
 /* ---------- Start ---------- */
+document.querySelectorAll('[data-unit]').forEach(el => el.textContent = el.dataset.unit === 'short' ? UNIT_SHORT : UNIT);
 (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => {
   load();
   if (LIVE){

@@ -72,6 +72,7 @@ button{font:inherit;cursor:pointer}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
 .kpi .label{font-size:14px;color:var(--muted);font-weight:500}
 .kpi .value{font-family:'Prompt',sans-serif;font-size:34px;font-weight:600;line-height:1.15;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi .unit{font-family:'Sarabun',sans-serif;font-size:15px;font-weight:500;color:var(--muted);margin-left:8px;white-space:nowrap}
 .kpi .sub{font-size:13.5px;color:var(--muted);margin-top:4px}
 .kpi .sub b{color:var(--st-green);font-weight:600}
 .hero{display:flex;align-items:center;gap:16px}
